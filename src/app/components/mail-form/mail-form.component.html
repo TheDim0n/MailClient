@@ -1,0 +1,69 @@
+<form nz-form>
+  <nz-form-item>
+    <nz-form-label nzFlex="1" nzRequired>Recipientes</nz-form-label>
+    <nz-form-control nzFlex="3">
+      <div nz-row [nzGutter]="12">
+        <div nz-col [nzSpan]="10">
+          <input name="email" nz-input [(ngModel)]="email"/>
+        </div>
+        <div nz-col [nzSpan]="12">
+          <button
+            nz-button
+            nzType="primary"
+            nzShape="circle"
+            (click)="addRecipiens()"
+            [disabled]="checkEmailType()"
+          >
+            <i nz-icon nzType="plus" nzTheme="outline"></i>
+          </button>
+        </div>
+      </div>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item style="margin-top: -15px;">
+    <nz-form-label nzNoColon nzFlex="1"> </nz-form-label>
+    <nz-form-control nzFlex="3" *ngIf="recipientes.length > 0; else elseBlock">
+      <nz-tag
+        *ngFor="let recipiens of recipientes"
+        nzMode="closeable"
+        (nzOnClose)="onCloseTag(recipiens)"
+        nzSize="30px"
+        ><span >{{ recipiens }}</span></nz-tag
+      >
+    </nz-form-control>
+    <ng-template #elseBlock>
+      <nz-form-control nzPull="15" nzSpan="3">
+        <nz-alert nzType="warning" nzMessage="No recipientes" nzShowIcon></nz-alert>
+      </nz-form-control>
+    </ng-template>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-label nzFlex="1">Subject</nz-form-label>
+    <nz-form-control nzFlex="3">
+      <input nz-input name="subject" [(ngModel)]="subject"/>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-label nzFlex="1" nzRequired>Message</nz-form-label>
+    <nz-form-control nzFlex="3">
+      <textarea nz-input name="message" [(ngModel)]="message"></textarea>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item style="margin-top: -15px;">
+    <nz-form-label nzFlex="1" nzNoColon></nz-form-label>
+    <nz-form-control nzFlex="3">
+      <button
+        nz-button
+        nzType="primary"
+        nzSize="large"
+        nzFlex="3"
+        class="submit"
+        (click)="submit()"
+        [disabled]="checkValidate()"
+      >
+        Submit
+      </button>
+    </nz-form-control>
+  </nz-form-item>
+</form>

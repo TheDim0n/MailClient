@@ -1,1 +1,27 @@
-/* You can add global styles to this file, and also import other style files */
+@import "~ng-zorro-antd/ng-zorro-antd.css";
+
+
+input,
+textarea {
+  width: 100%;
+}
+
+div {
+  align-items: center;
+}
+
+.logo {
+  color: #fff;
+  font-style: normal;
+  font-size: xx-large;
+  text-align: center;
+}
+
+.outer-content {
+  padding: 0 50px;
+}
+
+.inner-content {
+  padding-top: 40px;
+  background: #fff;
+}
