@@ -1,11 +1,14 @@
 {
   "name": "mail-client",
   "version": "0.0.0",
+  "main": "dist/electron.ts",
   "scripts": {
     "config": "ts-node setEnv.ts",
     "start": "npm run config && ng serve",
     "build": "npm run config && ng build",
     "build-prod": "npm run config && ng build --configuration production",
+    "build-electron" : "npm run build-prod && tsc --lib ES2018,DOM --target ES5 src/electron.ts --outDir dist",
+    "start-electron": "electron .",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
@@ -22,6 +25,7 @@
     "@angular/platform-browser-dynamic": "~13.2.0",
     "@angular/router": "~13.2.0",
     "dotenv": "^16.0.0",
+    "electron": "^17.1.0",
     "ng-zorro-antd": "^13.1.0",
     "rxjs": "~7.5.0",
     "ts-node": "^10.6.0",
