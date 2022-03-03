@@ -1,0 +1,11 @@
+version: '3.9'
+
+services:
+  mail-client:
+    build:
+      context: '.'
+      args:
+        PRODUCTION: false
+        API_URL: ${API_URL}
+    ports:
+      - 4200:80
