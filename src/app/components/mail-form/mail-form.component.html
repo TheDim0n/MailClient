@@ -1,10 +1,10 @@
-<form nz-form>
+<form nz-form enctype="multipart/form-data">
   <nz-form-item>
     <nz-form-label nzFlex="1" nzRequired>Recipientes</nz-form-label>
     <nz-form-control nzFlex="3">
       <div nz-row [nzGutter]="12">
         <div nz-col [nzSpan]="10">
-          <input name="email" nz-input [(ngModel)]="email"/>
+          <input name="email" nz-input [(ngModel)]="email" />
         </div>
         <div nz-col [nzSpan]="12">
           <button
@@ -20,7 +20,7 @@
       </div>
     </nz-form-control>
   </nz-form-item>
-  <nz-form-item style="margin-top: -15px;">
+  <nz-form-item style="margin-top: -15px">
     <nz-form-label nzNoColon nzFlex="1"> </nz-form-label>
     <nz-form-control nzFlex="3" *ngIf="recipientes.length > 0; else elseBlock">
       <nz-tag
@@ -28,12 +28,16 @@
         nzMode="closeable"
         (nzOnClose)="onCloseTag(recipiens)"
         nzSize="30px"
-        ><span >{{ recipiens }}</span></nz-tag
+        ><span>{{ recipiens }}</span></nz-tag
       >
     </nz-form-control>
     <ng-template #elseBlock>
       <nz-form-control nzPull="15" nzSpan="3">
-        <nz-alert nzType="warning" nzMessage="No recipientes" nzShowIcon></nz-alert>
+        <nz-alert
+          nzType="warning"
+          nzMessage="No recipientes"
+          nzShowIcon
+        ></nz-alert>
       </nz-form-control>
     </ng-template>
   </nz-form-item>
@@ -41,7 +45,7 @@
   <nz-form-item>
     <nz-form-label nzFlex="1">Subject</nz-form-label>
     <nz-form-control nzFlex="3">
-      <input nz-input name="subject" [(ngModel)]="subject"/>
+      <input nz-input name="subject" [(ngModel)]="subject" />
     </nz-form-control>
   </nz-form-item>
   <nz-form-item>
@@ -50,7 +54,49 @@
       <textarea nz-input name="message" [(ngModel)]="message"></textarea>
     </nz-form-control>
   </nz-form-item>
-  <nz-form-item style="margin-top: -15px;">
+  <nz-form-item>
+    <nz-form-label nzFlex="1">Attachments</nz-form-label>
+    <nz-form-control nzFlex="3">
+      <nz-col nzFlex="1">
+        <nz-upload
+        nzType="drag"
+        [nzAction]=""
+        nzShowUploadList
+        nzMultiple
+        [nzBeforeUpload]="beforeUpload"
+        draggable="true"
+        [(nzFileList)]="attachments"
+        [nzFileListRender]="fileList"
+      >
+        <p class="ant-upload-drag-icon">
+          <i
+            nz-icon
+            nzType="upload"
+            nzTheme="outline"
+            style="font-size: 100px; color: #1890ff"
+          ></i>
+        </p>
+        <h3 nz-typography style="margin: 0">Open existing file</h3>
+      </nz-upload>
+      </nz-col>
+      <nz-col nzFlex="2">
+        <ng-template #fileList>
+          <nz-row *ngFor="let file of attachments" style="padding: 8px 0px 0px 0px">
+            <nz-alert
+              nzType="info"
+              nzMessage="{{ file.name }}"
+              nzCloseable
+              (nzOnClose)="remove(file)"
+            >
+            </nz-alert>
+          </nz-row>
+        </ng-template>
+      </nz-col>
+
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item style="margin-top: -15px">
     <nz-form-label nzFlex="1" nzNoColon></nz-form-label>
     <nz-form-control nzFlex="3">
       <button
@@ -61,6 +107,62 @@
         class="submit"
         (click)="submit()"
         [disabled]="checkValidate()"
+      >
+        Submit
+      </button>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-label nzFlex="1" nzNoColon></nz-form-label>
+    <nz-form-control nzFlex="3"><nz-divider></nz-divider></nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-label nzFlex="1">Send from CSV</nz-form-label>
+    <nz-form-control nzFlex="3">
+      <nz-col nzFlex="1">
+        <nz-upload
+        nzType="drag"
+        [nzAction]=""
+        nzShowUploadList
+        [nzBeforeUpload]="beforeUploadCSV"
+        draggable="true"
+        [nzFileListRender]="csv"
+      >
+        <p class="ant-upload-drag-icon">
+          <i
+            nz-icon
+            nzType="upload"
+            nzTheme="outline"
+            style="font-size: 100px; color: #1890ff"
+          ></i>
+        </p>
+        <h3 nz-typography style="margin: 0">Open CSV file</h3>
+      </nz-upload>
+      </nz-col>
+      <nz-col nzFlex="2">
+        <ng-template #csv>
+          <nz-row style="padding: 8px 0px 0px 0px">
+            <nz-alert
+              nzType="info"
+              nzMessage="{{ csvFile?.name }}"
+            >
+            </nz-alert>
+          </nz-row>
+        </ng-template>
+      </nz-col>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item style="margin-top: -15px">
+    <nz-form-label nzFlex="1" nzNoColon></nz-form-label>
+    <nz-form-control nzFlex="3">
+      <button
+        nz-button
+        nzType="primary"
+        nzSize="large"
+        nzFlex="3"
+        class="submit"
+        (click)="sendCSV()"
       >
         Submit
       </button>

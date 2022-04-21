@@ -1,7 +1,7 @@
 {
   "name": "mail-client",
   "version": "0.0.0",
-  "main": "dist/electron.ts",
+  "main": "dist/electron.js",
   "scripts": {
     "config": "ts-node setEnv.ts",
     "start": "npm run config && ng serve",
